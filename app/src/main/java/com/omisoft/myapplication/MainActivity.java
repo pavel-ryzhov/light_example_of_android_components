@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
+  private static final String TAG = "MainActivityTag";
 
   TextView title;
 
