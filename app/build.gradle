@@ -6,32 +6,91 @@ android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
 
+// Номера версий приложения, а также требования к версии Android
     defaultConfig {
+//      Пакет приложения
         applicationId "com.omisoft.myapplication"
+//      Минимальная версия Андроид, какая будет поддерживаться в приложении
         minSdkVersion 19
+//      Максимальная версия Андроид, какая будет поддерживаться в приложении
         targetSdkVersion 31
+//      Версия кода/билда/APК, который отличается от предыдущего. Этот номер не отображается для юзера.
         versionCode 1
+//      Номер приложения, который видим для пользователя в Google Play/App Settings
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования кода
+//          из библиотек которые не используються
+            minifyEnabled true
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования неиспользуемых ресурсов,
+//          в том числе из библиотек
+            shrinkResources true
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//          Создаем филду BASE_URL в файле BuildConfig со значением "debug_base_url" для сборки debug
+            buildConfigField "String", "BASE_URL", "\"debug_base_url\""
+        }
+
+        release {
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования кода
+//          из библиотек которые не используються
+            minifyEnabled true
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования неиспользуемых ресурсов,
+//          в том числе из библиотек
+            shrinkResources true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//          Создаем филду BASE_URL в файле BuildConfig со значением "debug_base_url" для сборки release
+            buildConfigField "String", "BASE_URL", "\"release_base_url\""
+        }
+
+        example {
+//          Говорим компилятору, что этот BuildType будет создан с настройками debug.
+            initWith debug
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования кода
+//          из библиотек которые не используються
+            minifyEnabled true
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования неиспользуемых ресурсов,
+//          в том числе из библиотек
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//          Создаем филду BASE_URL в файле BuildConfig со значением "debug_base_url" для сборки example
+            buildConfigField "String", "BASE_URL", "\"example_base_url\""
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def project = "MyApp"
+                def SEP = "_"
+                def buildType = variant.buildType.name
+                def version = variant.versionName
+                def date = new Date();
+                def formattedDate = date.format('ddMMyy')
+
+                def apkName = project + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
+
+                outputFileName = new File(apkName)
+            }
         }
     }
+
     compileOptions {
+//      Языковой уровень исходного кода java.
         sourceCompatibility JavaVersion.VERSION_1_8
+
+//      Версия сгенерированного байт-кода Java.
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

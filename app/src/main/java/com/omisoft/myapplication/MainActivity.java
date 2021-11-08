@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     title = findViewById(R.id.txt_title);
+    title.setText(BuildConfig.BASE_URL);
+
     final AppCompatButton secondActivityButton = findViewById(R.id.btn_second_activity);
     final AppCompatButton openGoogleButton = findViewById(R.id.btn_open_browser);
     final WebView webView = findViewById(R.id.web_view);
