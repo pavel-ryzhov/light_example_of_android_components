@@ -82,6 +82,30 @@ android {
             buildConfigField "String", "BASE_URL_SECOND", "\"https://example7-second\""
         }
 
+        firstCustomBuild {
+            initWith debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://firstCustomBuild\""
+            buildConfigField "String", "BASE_URL_SECOND", "\"https://firstCustomBuild-second\""
+            buildConfigField "String", "BASE_TYPE", "\"firstCustomBuild\""
+            buildConfigField "Integer", "VERSION_CODE", "1"
+            buildConfigField "Boolean", "IS_MINIFIED", "true"
+        }
+
+        secondCustomBuild {
+            initWith debug
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://secondCustomBuild\""
+            buildConfigField "String", "BASE_URL_SECOND", "\"https://secondCustomBuild-second\""
+            buildConfigField "String", "BASE_TYPE", "\"secondCustomBuild\""
+            buildConfigField "Integer", "VERSION_CODE", "2"
+            buildConfigField "Boolean", "IS_MINIFIED", "false"
+        }
+
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
                 // начало названия
