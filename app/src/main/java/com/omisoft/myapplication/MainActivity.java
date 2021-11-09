@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -21,21 +23,28 @@ import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = "MainActivityTag";
+  private static final String ASSET_FILE_NAME = "test.txt";
+  private static final String GOOGLE_URL = "https://www.google.com/";
+  private static final String CLEAR_WEB_VIEW = "about:blank";
 
   TextView title;
+  WebView webView;
 
   @SuppressLint("SetJavaScriptEnabled")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    Log.d(TAG, "onCreate");
 
     title = findViewById(R.id.txt_title);
-    title.setText(BuildConfig.BASE_URL);
+    //  Стринга, которая генерируется в зависимости от собраного билда, статическая строчка с названием
+    //  BASE_URL_SECOND
+    title.setText(BuildConfig.BASE_URL_SECOND);
 
     final AppCompatButton secondActivityButton = findViewById(R.id.btn_second_activity);
     final AppCompatButton openGoogleButton = findViewById(R.id.btn_open_browser);
-    final WebView webView = findViewById(R.id.web_view);
+    webView = findViewById(R.id.web_view);
 
     secondActivityButton.setOnClickListener(view -> {
       final Intent intent = new Intent(MainActivity.this, SecondActivity.class);
@@ -43,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     });
 
     openGoogleButton.setOnClickListener(view -> {
+      webView.setVisibility(View.VISIBLE);
       webView.getSettings().setJavaScriptEnabled(true);
       webView.getSettings().setLoadWithOverviewMode(true);
       webView.getSettings().setUseWideViewPort(true);
@@ -59,16 +69,26 @@ public class MainActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, final String url) {
         }
       });
-      webView.loadUrl("https://www.google.com/");
+      webView.loadUrl(GOOGLE_URL);
     });
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (webView.getVisibility() == View.VISIBLE) {
+      webView.setVisibility(View.GONE);
+      webView.loadUrl(CLEAR_WEB_VIEW);
+    } else {
+      super.onBackPressed();
+    }
   }
 
   void readTextAsset() {
     try {
-      AssetManager am = this.getAssets();
-      InputStream is = am.open("test.txt");
+      final AssetManager am = this.getAssets();
+      final InputStream is = am.open(ASSET_FILE_NAME);
 
-      StringBuilder textBuilder = new StringBuilder();
+      final StringBuilder textBuilder = new StringBuilder();
       try (Reader reader = new BufferedReader(new InputStreamReader
               (is, Charset.forName(StandardCharsets.UTF_8.name())))) {
         int c;

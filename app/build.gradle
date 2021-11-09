@@ -15,7 +15,7 @@ android {
         applicationId "com.omisoft.myapplication"
 //      Минимальная версия Андроид, какая будет поддерживаться в приложении (API 19 - Android 4.4)
         minSdkVersion 19
-//      Максимальная версия Андроид, какая будет поддерживаться в приложении (API 31 - Android 12)
+//      Максимальная версия Андроид, какая будет поддерживаться в приложении (API 31 - Android 12). Не может быть выше значения compileSdkVersion
         targetSdkVersion 31
 //      Версия кода/билда/APК, который отличается от предыдущего. Этот номер не отображается для юзера.
         versionCode 1
@@ -36,7 +36,8 @@ android {
 
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 //          Создаем филду BASE_URL в файле BuildConfig со значением "debug_base_url" для сборки debug
-            buildConfigField "String", "BASE_URL", "\"debug_base_url\""
+            buildConfigField "String", "BASE_URL", "\"https://debug\""
+            buildConfigField "String", "BASE_URL_SECOND", "\"https://debug-second\""
         }
 
         release {
@@ -66,17 +67,40 @@ android {
             buildConfigField "String", "BASE_URL", "\"example_base_url\""
         }
 
+        example7 {
+//          Говорим компилятору, что этот BuildType будет создан с настройками debug.
+            initWith debug
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования кода
+//          из библиотек которые не используються
+            minifyEnabled true
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования неиспользуемых ресурсов,
+//          в том числе из библиотек
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//          Создаем филду BASE_URL в файле BuildConfig со значением "debug_base_url" для сборки example
+            buildConfigField "String", "BASE_URL", "\"https://example7\""
+            buildConfigField "String", "BASE_URL_SECOND", "\"https://example7-second\""
+        }
+
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
-                def project = "MyApp"
-                def SEP = "_"
+                // начало названия
+                def APP_TITLE = "My Application"
+                // символ каким разделяем слова в названии
+                def SEPARATOR = "_"
+                // какой билд (зависит от того, какой выбрали в Active Build Variant)
                 def buildType = variant.buildType.name
+                // versionName, который мы указали в defaultConfig -> versionName
                 def version = variant.versionName
-                def date = new Date();
-                def formattedDate = date.format('ddMMyy')
+                // инициализация объекта даты
+                def date = new Date()
+                // указываем формат даты типа "09.11.21"
+                def formattedDate = date.format('dd.MM.yy')
 
-                def apkName = project + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
+                // объединяем все в одну строчку
+                def apkName = APP_TITLE + SEPARATOR + buildType + SEPARATOR + version + SEPARATOR + formattedDate + ".apk"
 
+                // создем APK файл с названием $apkName
                 outputFileName = new File(apkName)
             }
         }

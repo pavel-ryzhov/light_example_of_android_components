@@ -15,6 +15,7 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true"
         tools:ignore="UnusedAttribute">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,14 +24,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".SecondActivity" />
-        <activity android:name=".service.ForegroundServiceActivity">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+        </activity>
+
+        <activity
+            android:name=".sample.SampleActivity"
+            android:exported="true">
+
+        </activity>
+
+        <activity android:name=".SecondActivity" />
+
+        <activity android:name=".service.ForegroundServiceActivity">
+
         </activity>
 
         <service
@@ -38,9 +44,11 @@
             android:label="FirstForegroundService" />
 
         <receiver android:name=".service.FirstBroadcastReceiver" />
+
         <receiver
             android:name=".service.ForegroundServiceActivity$InnerFirstBroadcastReceiver"
             tools:ignore="Instantiatable" />
+
     </application>
 
 </manifest>
