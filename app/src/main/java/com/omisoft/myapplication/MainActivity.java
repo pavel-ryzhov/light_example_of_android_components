@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
   private static final String ASSET_FILE_NAME = "test.txt";
   private static final String GOOGLE_URL = "https://www.google.com/";
   private static final String CLEAR_WEB_VIEW = "about:blank";
+  
 
   TextView title;
   WebView webView;
