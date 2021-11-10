@@ -3,8 +3,6 @@ plugins {
 }
 
 android {
-
-
 //  В коде будут доступен весь функционал API FRAMEWORK характерный для API 31 - Android 12
     compileSdkVersion 31
 //  Это версия компиляторов (aapt, dx, компилятор renderscript и т. д.),
