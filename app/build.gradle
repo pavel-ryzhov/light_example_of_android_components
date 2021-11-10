@@ -82,10 +82,42 @@ android {
             buildConfigField "String", "BASE_URL_SECOND", "\"https://example7-second\""
         }
 
+        myType0 {
+//          Говорим компилятору, что этот BuildType будет создан с настройками debug.
+            initWith debug
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования кода
+//          из библиотек которые не используються
+            minifyEnabled true
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования неиспользуемых ресурсов,
+//          в том числе из библиотек
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//          Создаем филду BASE_URL в файле BuildConfig со значением "debug_base_url" для сборки example
+            buildConfigField "String", "BUILD_TYPE", "\"myType0\""
+            buildConfigField "int", "VERSION_CODE", "1"
+            buildConfigField "boolean", "IS_MINIFIED", "true"
+        }
+
+        myType1 {
+//          Говорим компилятору, что этот BuildType будет создан с настройками debug.
+            initWith debug
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования кода
+//          из библиотек которые не используються
+            minifyEnabled true
+//          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования неиспользуемых ресурсов,
+//          в том числе из библиотек
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//          Создаем филду BASE_URL в файле BuildConfig со значением "debug_base_url" для сборки example
+            buildConfigField "String", "BUILD_TYPE", "\"myType1\""
+            buildConfigField "int", "VERSION_CODE", "2"
+            buildConfigField "boolean", "IS_MINIFIED", "false"
+        }
+
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
                 // начало названия
-                def APP_TITLE = "My Application"
+                def APP_TITLE = "My application"
                 // символ каким разделяем слова в названии
                 def SEPARATOR = "_"
                 // какой билд (зависит от того, какой выбрали в Active Build Variant)

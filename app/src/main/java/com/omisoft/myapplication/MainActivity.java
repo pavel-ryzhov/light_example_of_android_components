@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     title = findViewById(R.id.txt_title);
     //  Стринга, которая генерируется в зависимости от собраного билда, статическая строчка с названием
     //  BASE_URL_SECOND
-    title.setText(BuildConfig.BASE_URL_SECOND);
+    title.setText("Build Type: " + BuildConfig.BUILD_TYPE + ", version code: " +
+            BuildConfig.VERSION_CODE + ", is minified: " + BuildConfig.IS_MINIFIED);
+    title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
     final AppCompatButton secondActivityButton = findViewById(R.id.btn_second_activity);
     final AppCompatButton openGoogleButton = findViewById(R.id.btn_open_browser);
