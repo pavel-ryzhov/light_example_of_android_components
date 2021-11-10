@@ -3,6 +3,7 @@ package com.omisoft.myapplication;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
   private static final String ASSET_FILE_NAME = "test.txt";
   private static final String GOOGLE_URL = "https://www.google.com/";
   private static final String CLEAR_WEB_VIEW = "about:blank";
-  
+
 
   TextView title;
   WebView webView;
 
-  @SuppressLint("SetJavaScriptEnabled")
+  @SuppressLint({"SetJavaScriptEnabled", "SetTextI18n"})
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -41,7 +42,10 @@ public class MainActivity extends AppCompatActivity {
     title = findViewById(R.id.txt_title);
     //  Стринга, которая генерируется в зависимости от собраного билда, статическая строчка с названием
     //  BASE_URL_SECOND
-    title.setText(BuildConfig.BASE_URL_SECOND);
+    title.setText("BuildType: " + BuildConfig.BUILD_TYPE + ", version code: " + BuildConfig.VERSION_CODE + ", isMinified: " + BuildConfig.IS_MINIFIED);
+    title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+    title.setTextSize(20);
+    title.setTextColor(Color.BLUE);
 
     final AppCompatButton secondActivityButton = findViewById(R.id.btn_second_activity);
     final AppCompatButton openGoogleButton = findViewById(R.id.btn_open_browser);
