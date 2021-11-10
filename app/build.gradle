@@ -40,6 +40,26 @@ android {
             buildConfigField "String", "BASE_URL_SECOND", "\"https://debug-second\""
         }
 
+        myCustomBuild1 {
+            initWith debug
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BUILD_TYPE", "\"myCustomBuild1\""
+            buildConfigField "int", "VERSION_CODE", "21"
+            buildConfigField "boolean", "IS_MINIFIED", "true"
+        }
+
+        myCustomBuild2 {
+            initWith debug
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BUILD_TYPE", "\"myCustomBuild2\""
+            buildConfigField "int", "VERSION_CODE", "12"
+            buildConfigField "boolean", "IS_MINIFIED", "false"
+        }
+
         release {
 //          При значении "true" - уменшает размер APK (Файл приложения) за счет игнорирования кода
 //          из библиотек которые не используються
@@ -84,21 +104,19 @@ android {
 
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
-                // начало названия
-                def APP_TITLE = "My Application"
                 // символ каким разделяем слова в названии
-                def SEPARATOR = "_"
+                def SEPARATOR = "-"
                 // какой билд (зависит от того, какой выбрали в Active Build Variant)
                 def buildType = variant.buildType.name
-                // versionName, который мы указали в defaultConfig -> versionName
-                def version = variant.versionName
+                // имя разработчика
+                def DEV_NAME = "AntonBarodziy"
                 // инициализация объекта даты
                 def date = new Date()
                 // указываем формат даты типа "09.11.21"
                 def formattedDate = date.format('dd.MM.yy')
 
                 // объединяем все в одну строчку
-                def apkName = APP_TITLE + SEPARATOR + buildType + SEPARATOR + version + SEPARATOR + formattedDate + ".apk"
+                def apkName = buildType + SEPARATOR + "from" + SEPARATOR + DEV_NAME + SEPARATOR + formattedDate + ".apk"
 
                 // создем APK файл с названием $apkName
                 outputFileName = new File(apkName)
